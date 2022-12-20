@@ -12,7 +12,7 @@ const create = async (tablename, content) => {
 };
 
 const find = async (tablename, content) => {
-  const [[result]] = await connection.execute(
+  const result = await connection.execute(
     `SELECT * FROM ${tablename}
     WHERE ${content.field} = ?`, [content.value]
   )

@@ -3,9 +3,9 @@ const { fieldNotFound, invalidFieldData } = require("../../utils/errors/errorsRe
 
 const validateUrlMiddleware = (req, _res, next) => {
   const { url } = req.body;
-  if (!url) next(fieldNotFound('url'));
+  if (!url) return next(fieldNotFound('url'));
   if (!isValidUrl(url)) {
-    next(invalidFieldData('url'));
+    return next(invalidFieldData('url'));
   }
   next();
 };

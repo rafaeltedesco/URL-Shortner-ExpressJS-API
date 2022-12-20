@@ -3,6 +3,7 @@ const chaiHttp = require('chai-http')
 const app = require('../../src/app')
 const sinon = require('sinon')
 const connection = require('../../src/database/connection')
+const jwt = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 
@@ -10,8 +11,16 @@ const { expect } = chai
 
 describe('Test Shortner funcionality', function () {
     describe('POST /short-url', function () {
+        const userData = {
+            id: 1,
+            name: "Rafael",
+            email: "rafael@mail.com",
+            iat: 1671567149,
+          }
+        
         beforeEach(()=> {
             sinon.stub(connection, 'execute').resolves([{insertId: 1}])
+            sinon.stub(jwt, 'verify').returns(userData)
         }) 
         afterEach(sinon.restore)
         describe('Success Case', function () {
@@ -23,11 +32,15 @@ describe('Test Shortner funcionality', function () {
                     id: 1,
                     shortnedUrl: 'http://localhost:3000/1234',
                     originalUrl: 'https://www.google.com',
+                },
+                header: {
+                    'Authorization': 'Bearer abcd'
                 }
             }
             it('should produce a short version of an incoming url', async function () {
                 const response = await chai.request(app)
                     .post(successTestConfig.testURL)
+                    .set(successTestConfig.header)
                     .send(successTestConfig.incomingURL)
     
                 expect(response).to.have.status(successTestConfig.expectedStatus)
@@ -41,11 +54,15 @@ describe('Test Shortner funcionality', function () {
                 expectedStatus: 400,
                 expectedBody: {
                     message: '"url" field not found'
+                },
+                header: {
+                    'Authorization': 'Bearer abcd'
                 }
             }
             it('should return status 400 when request does not contain a url', async function () {
                 const response = await chai.request(app)
                     .post(failureTestConfig.testURL)
+                    .set(failureTestConfig.header)
                     .send(failureTestConfig.incomingURL)
                 expect(response).to.have.status(failureTestConfig.expectedStatus)
                 expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
@@ -60,6 +77,7 @@ describe('Test Shortner funcionality', function () {
                 }
                 const response = await chai.request(app)
                     .post(failureTestConfig.testURL)
+                    .set(failureTestConfig.header)
                     .send(failureTestConfig.incomingURL)
                 expect(response).to.have.status(failureTestConfig.expectedStatus)
                 expect(response.body).to.deep.equal(failureTestConfig.expectedBody)

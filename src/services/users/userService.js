@@ -1,10 +1,13 @@
 const dbUtils = require("../../utils/dbUtils/dbCrud");
+const { generateToken } = require("../jwt/tokenGenerator");
 
 const login = async (email, password) => {
   const user = await getUserDataIfExists(email);
   if (Number(user.password) === Number(password)) {
+    delete user.password
+    const token = await generateToken(user)
     return {
-      token: "abcd",
+      token,
     };
   }
   return false;

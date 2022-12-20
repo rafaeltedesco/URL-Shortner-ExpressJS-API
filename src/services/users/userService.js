@@ -14,7 +14,7 @@ const login = async (email, password) => {
 };
 
 const getUserDataIfExists = async (email) => {
-  const user = await dbUtils.find("users", {
+  const [[user]] = await dbUtils.find("users", {
     field: "email",
     value: email,
   });

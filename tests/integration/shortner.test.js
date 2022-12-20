@@ -40,6 +40,7 @@ describe('Test Shortner funcionality', function () {
             it('should return status 400 when request does not contain a url', async function () {
                 const response = await chai.request(app)
                     .post(failureTestConfig.testURL)
+                    .send(failureTestConfig.incomingURL)
                 expect(response).to.have.status(failureTestConfig.expectedStatus)
                 expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
             })

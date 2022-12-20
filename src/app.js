@@ -17,11 +17,19 @@ app.post('/short-url', (req, res)=> {
             message: '"url" field not found'
         })
     }
-    res.status(200).json({
-        id: 1,
-        shortned_url: 'http://localhost:3000/1234',
-        original_url: 'https://www.google.com'
-    })
+    try {
+        const validUrl = new URL(url)
+        res.status(200).json({
+            id: 1,
+            shortned_url: 'http://localhost:3000/1234',
+            original_url: 'https://www.google.com'
+        })
+    }
+    catch(err) {
+        return res.status(422).json({
+            message: 'Invalid "url"'
+        })
+    }
 })
 
 module.exports = app;

@@ -79,7 +79,7 @@ describe("Test Users Route", function () {
             createdAt: "2022-10-05",
           },
         ];
-       sinon.stub(connection, 'execute').resolves(expectedUrls)
+       sinon.stub(connection, 'execute').resolves([expectedUrls])
         const response = await chai
           .request(app)
           .get(successTestConfig.testUrl)

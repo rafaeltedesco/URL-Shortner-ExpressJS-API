@@ -1,6 +1,8 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const app = require('../../src/app')
+const sinon = require('sinon')
+const connection = require('../../src/database/connection')
 
 chai.use(chaiHttp)
 
@@ -8,6 +10,10 @@ const { expect } = chai
 
 describe('Test Shortner funcionality', function () {
     describe('POST /short-url', function () {
+        beforeEach(()=> {
+            sinon.stub(connection, 'execute').resolves([{insertId: 1}])
+        }) 
+        afterEach(sinon.restore)
         describe('Success Case', function () {
             const successTestConfig = {
                 testURL: '/short-url',
@@ -16,7 +22,7 @@ describe('Test Shortner funcionality', function () {
                 expectedBody: {
                     id: 1,
                     shortned_url: 'http://localhost:3000/1234',
-                    original_url: 'https://www.google.com'
+                    original_url: 'https://www.google.com',
                 }
             }
             it('should produce a short version of an incoming url', async function () {

@@ -6,6 +6,7 @@ const {
 const { handleErrorMiddleware } = require("./middlewares/errors/errorHandler");
 const dbUtils = require("./utils/dbUtils/dbCrud");
 const { shortURL } = require("./services/shortner/urlShortner");
+const userService = require('./services/users/userService')
 
 const app = express();
 
@@ -18,10 +19,10 @@ app.get("/", (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
-  res.status(200).json({
-    token: 'abcd'
-  })
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body
+  const token = await userService.login(email, password)
+  res.status(200).json(token)
 })
 
 app.post("/short-url", validateUrlMiddleware, async (req, res) => {

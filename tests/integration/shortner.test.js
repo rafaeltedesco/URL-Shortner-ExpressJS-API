@@ -18,13 +18,15 @@ describe('Test Shortner funcionality', function () {
         }
     }
     describe('POST /short-url', function () {
-        it('should produce a short version of an incoming url', async function () {
-            const response = await chai.request(app)
-                .post(testConfig.testURL)
-                .send(testConfig.incomingURL)
-
-            expect(response).to.have.status(testConfig.expectedStatus)
-            expect(response.body).to.deep.equal(testConfig.expectedBody)
+        describe('Success Case', function () {
+            it('should produce a short version of an incoming url', async function () {
+                const response = await chai.request(app)
+                    .post(testConfig.testURL)
+                    .send(testConfig.incomingURL)
+    
+                expect(response).to.have.status(testConfig.expectedStatus)
+                expect(response.body).to.deep.equal(testConfig.expectedBody)
+            })
         })
     })
 })

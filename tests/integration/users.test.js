@@ -16,10 +16,7 @@ describe("Test Users Route", function () {
           password: 1234,
         },
         expected: {
-          status: 200,
-          body: {
-            token: "abcd",
-          },
+          status: 200
         },
       };
       it("should return a token when user login with valid credentials", async function () {
@@ -28,7 +25,8 @@ describe("Test Users Route", function () {
           .post(successTestConfig.testUrl)
           .send(successTestConfig.loginData);
         expect(response).to.have.status(successTestConfig.expected.status);
-        expect(response.body).to.deep.equal(successTestConfig.expected.body);
+        expect(response.body).to.haveOwnProperty('token')
+        expect(response.body.token).to.have.length.greaterThan(3)
       });
     });
   });

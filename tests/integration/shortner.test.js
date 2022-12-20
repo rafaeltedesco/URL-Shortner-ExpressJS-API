@@ -9,7 +9,7 @@ const { expect } = chai
 describe('Test Shortner funcionality', function () {
     const testConfig = {
         testURL: '/short-url',
-        incomingURL: 'https://www.google.com',
+        incomingURL: { url: 'https://www.google.com'},
         expectedStatus: 200,
         expectedBody: {
             id: 1,
@@ -21,9 +21,7 @@ describe('Test Shortner funcionality', function () {
         it('should produce a short version of an incoming url', async function () {
             const response = await chai.request(app)
                 .post(testConfig.testURL)
-                .send({
-                    url: testConfig.incomingURL
-                })
+                .send(testConfig.incomingURL)
 
             expect(response).to.have.status(testConfig.expectedStatus)
             expect(response.body).to.deep.equal(testConfig.expectedBody)

@@ -1,11 +1,8 @@
 const { Router } = require("express");
+const { welcome } = require("../controller/welcomeController");
 
 const router = Router();
 
-router.get("/", (_req, res) => {
-  res.status(200).json({
-    message: "Welcome",
-  });
-});
+router.get("/", welcome);
 
 module.exports = router;

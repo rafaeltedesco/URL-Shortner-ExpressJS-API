@@ -7,18 +7,15 @@ const { handleErrorMiddleware } = require("./middlewares/errors/errorHandler");
 const dbUtils = require("./utils/dbUtils/dbCrud");
 const { shortURL } = require("./services/shortner/urlShortner");
 const userRouter = require('./routes/userRoute')
+const welcomeRouter = require('./routes/welcomeRoute')
 const { isAuthenticated } = require("./middlewares/auth/authUser");
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Welcome",
-  });
-});
 
+app.use(welcomeRouter);
 app.use(userRouter);
 
 app.post(

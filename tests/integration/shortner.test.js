@@ -21,8 +21,8 @@ describe('Test Shortner funcionality', function () {
                 expectedStatus: 200,
                 expectedBody: {
                     id: 1,
-                    shortned_url: 'http://localhost:3000/1234',
-                    original_url: 'https://www.google.com',
+                    shortnedUrl: 'http://localhost:3000/1234',
+                    originalUrl: 'https://www.google.com',
                 }
             }
             it('should produce a short version of an incoming url', async function () {

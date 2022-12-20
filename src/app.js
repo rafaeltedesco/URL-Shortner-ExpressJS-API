@@ -17,6 +17,13 @@ app.get("/", (req, res) => {
   });
 });
 
+
+app.post('/login', (req, res) => {
+  res.status(200).json({
+    token: 'abcd'
+  })
+})
+
 app.post("/short-url", validateUrlMiddleware, async (req, res) => {
   const { url: originalUrl } = req.body;
   const shortnedUrl = await shortURL(originalUrl)

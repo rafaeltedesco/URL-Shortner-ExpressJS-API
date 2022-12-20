@@ -43,6 +43,21 @@ describe('Test Shortner funcionality', function () {
                 expect(response).to.have.status(failureTestConfig.expectedStatus)
                 expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
             })
+            it('should return status 422 when request contains a url but it\'s invalid', async function () {
+                failureTestConfig.incomingURL = {
+                    url: 'abcde'
+                }
+                failureTestConfig.expectedStatus = 422
+                failureTestConfig.expectedBody = {
+                    message: 'Invalid "url"'
+                }
+                const response = await chai.request(app)
+                    .post(failureTestConfig.testURL)
+                    .send(failureTestConfig.incomingURL)
+                expect(response).to.have.status(failureTestConfig.expectedStatus)
+                expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
+                
+            })
         })
     })
 })

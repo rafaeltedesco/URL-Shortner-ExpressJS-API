@@ -1,6 +1,8 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../../src/app");
+const sinon = require('sinon')
+const jwt = require('jsonwebtoken')
 
 chai.use(chaiHttp);
 
@@ -18,11 +20,22 @@ describe("Test Users Route", function () {
         expected: {
           status: 200
         },
+        header: {
+            'Authorization': 'Bearer abcd'
+        }
       };
       it("should return a token when user login with valid credentials", async function () {
+        const userData = {
+            id: 1,
+            name: "Rafael",
+            email: "rafael@mail.com",
+            iat: 1671567149,
+          }
+        sinon.stub(jwt, 'verify').returns(userData)
         const response = await chai
           .request(app)
           .post(successTestConfig.testUrl)
+          .set(successTestConfig.header)
           .send(successTestConfig.loginData);
         expect(response).to.have.status(successTestConfig.expected.status);
         expect(response.body).to.haveOwnProperty('token')

@@ -68,15 +68,17 @@ describe("Test Users Route", function () {
         const expectedUrls = [
           {
             id: 7,
-            shortnedUrl: "http://localhost:3000/1234",
-            originalUrl: "http://www.google.com/test",
-            createdAt: "2022-12-05",
+            shortned_url: "http://localhost:3000/1234",
+            original_url: "http://www.google.com/test",
+            created_at: "2022-12-05T21:49:36.000Z",
+            user_id: 1
           },
           {
             id: 4,
-            shortnedUrl: "http://localhost:3000/1234",
-            originalUrl: "http://www.google.com/test",
-            createdAt: "2022-10-05",
+            shortned_url: "http://localhost:3000/4442",
+            originalUrl: "http://www.google.com/dbz",
+            createdAt: "2022-10-05T21:49:36.000Z",
+            user_id: 1
           },
         ];
        sinon.stub(connection, 'execute').resolves([expectedUrls])

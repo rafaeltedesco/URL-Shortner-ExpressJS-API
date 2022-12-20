@@ -82,6 +82,18 @@ describe('Test Shortner funcionality', function () {
                 expect(response).to.have.status(failureTestConfig.expectedStatus)
                 expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
             })
+        it('should return http status 401 if token is not provide', async function () {
+            failureTestConfig.expectedStatus = 401
+            failureTestConfig.expectedBody = {
+                message: '"token" not provided'
+            }
+            const response = await chai.request(app)
+                .post(failureTestConfig.testURL)
+                .send(failureTestConfig.incomingURL)
+
+            expect(response).to.have.status(failureTestConfig.expectedStatus)
+            expect(response.body).to.deep.equal(failureTestConfig.expectedBody)
+        })
         })
     })
 })

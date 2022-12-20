@@ -28,5 +28,18 @@ describe('Test Shortner funcionality', function () {
                 expect(response.body).to.deep.equal(testConfig.expectedBody)
             })
         })
+        describe('Failure Case', function () {
+            it('should return status 400 when request does not contain a url', async function () {
+                testConfig.incomingURL = {} 
+                testConfig.expectedStatus = 400
+                testConfig.expectedBody = {
+                    message: '"url" field not found'
+                }
+                const response = await chai.request(app)
+                    .post(testConfig.testURL)
+                expect(response).to.have.status(testConfig.expectedStatus)
+                expect(response.body).to.deep.equal(testConfig.expectedBody)
+            })
+        })
     })
 })

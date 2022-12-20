@@ -1,9 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const {
   validateUrlMiddleware,
 } = require("./middlewares/validators/urlValidator");
 const { handleErrorMiddleware } = require("./middlewares/errors/errorHandler");
+const dbUtils = require("./utils/dbUtils/dbCrud");
 
 const app = express();
 
@@ -15,15 +16,21 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/short-url", validateUrlMiddleware, (req, res) => {
+app.post("/short-url", validateUrlMiddleware, async (req, res) => {
   const { url } = req.body;
+  const content = {
+    shortned_url: "http://localhost:3000/1234",
+    original_url: url,
+    user_id: 1
+  }
+  const { insertId: id } = await dbUtils.create('urls', content)
   res.status(200).json({
-    id: 1,
+    id,
     shortned_url: "http://localhost:3000/1234",
     original_url: url,
   });
 });
 
-app.use(handleErrorMiddleware)
+app.use(handleErrorMiddleware);
 
 module.exports = app;

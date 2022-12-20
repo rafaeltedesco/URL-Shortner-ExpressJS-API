@@ -3,12 +3,14 @@ const chaiHttp = require("chai-http");
 const app = require("../../src/app");
 const sinon = require("sinon");
 const jwt = require("jsonwebtoken");
+const connection = require("../../src/database/connection");
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 describe("Test Users Route", function () {
+  afterEach(sinon.restore) 
   describe("POST /login", function () {
     describe("sucess case", function () {
       const successTestConfig = {
@@ -55,7 +57,14 @@ describe("Test Users Route", function () {
           Authorization: "Bearer abcd",
         },
       };
-      it.skip("should show all user's urls", async function () {
+      it("should show all user's urls", async function () {
+        const userData = {
+          id: 1,
+          name: "Rafael",
+          email: "rafael@mail.com",
+          iat: 1671567149,
+        };
+        sinon.stub(jwt, "verify").returns(userData);
         const expectedUrls = [
           {
             id: 7,
@@ -70,7 +79,7 @@ describe("Test Users Route", function () {
             createdAt: "2022-10-05",
           },
         ];
-       
+       sinon.stub(connection, 'execute').resolves(expectedUrls)
         const response = await chai
           .request(app)
           .get(successTestConfig.testUrl)

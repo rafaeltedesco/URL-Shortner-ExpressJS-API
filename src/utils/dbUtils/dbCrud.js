@@ -11,15 +11,15 @@ const create = async (tablename, content) => {
   return result;
 };
 
-const findOne = async (tablename, field) => {
+const find = async (tablename, content) => {
   const [[result]] = await connection.execute(
     `SELECT * FROM ${tablename}
-    WHERE ${field.columnName} = ?`, [field.value]
+    WHERE ${content.field} = ?`, [content.value]
   )
   return result
 }
 
 module.exports = {
     create,
-    findOne
+    find
 }

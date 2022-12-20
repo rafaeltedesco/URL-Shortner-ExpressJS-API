@@ -17,8 +17,13 @@ const headerKeyNotProvided = (headerKey) => {
     return baseError(headerKey, "not provided", 401)
 }
 
+const headerValueIsNotValid = (headerKey) => {
+    return baseError(headerKey, "invalid", 401)
+}
+
 module.exports = {
     fieldNotFound,
     invalidFieldData,
-    headerKeyNotProvided
+    headerKeyNotProvided,
+    headerValueIsNotValid
 }

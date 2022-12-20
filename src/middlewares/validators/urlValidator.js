@@ -1,10 +1,11 @@
 const { isValidUrl } = require("../../helpers/validators/urlValidator");
+const { fieldNotFound, invalidFieldData } = require("../../utils/errors/errorsResponses");
 
 const validateUrlMiddleware = (req, _res, next) => {
   const { url } = req.body;
-  if (!url) next({ status: 400, message: '"url" field not found' });
+  if (!url) next(fieldNotFound('url'));
   if (!isValidUrl(url)) {
-    next({ status: 422, message: '"url" invalid' });
+    next(invalidFieldData('url'));
   }
   next();
 };

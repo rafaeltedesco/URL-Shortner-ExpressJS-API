@@ -20,6 +20,7 @@ const shortUrl = async (req, res) => {
 
 const getOriginalURL = async (req, res) => {
     const { id } = req.params;
+    
     const originalUrl = await urlService.getOriginalURLFromId(id);
     res.redirect(302, originalUrl)
 }

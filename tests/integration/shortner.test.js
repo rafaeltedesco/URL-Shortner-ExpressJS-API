@@ -119,7 +119,7 @@ describe("Test Shortner funcionality", function () {
       const successTestConfig = {
         expectedResponse: {
           status: 302,
-          redirectExpected: 'http://google.com'
+          redirectExpected: 'https://www.google.com'
         },
       };
 

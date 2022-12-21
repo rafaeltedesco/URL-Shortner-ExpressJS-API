@@ -14,4 +14,9 @@ router.post(
   shortnerController.shortUrl
 );
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    const originalUrl = 'http://google.com'
+    res.redirect(302, originalUrl)
+})
 module.exports = router;

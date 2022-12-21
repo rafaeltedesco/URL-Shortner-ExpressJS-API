@@ -30,7 +30,7 @@ describe("Test Users create profile Route", function () {
         },
       };
       it("should create an user", async function () {
-        sinon.stub(connection, "execute").resolves([[{ insertid: 1 }]]);
+        sinon.stub(connection, "execute").resolves([[{ insertId: 1 }]]);
 
         const response = await chai
           .request(app)

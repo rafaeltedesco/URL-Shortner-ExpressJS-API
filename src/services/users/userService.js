@@ -23,7 +23,8 @@ const getUserDataIfExists = async (email) => {
 };
 
 const create = async (userData) => {
-  return [{insertId: 1}]
+  const [result] = await dbUtils.create('users', userData)
+  return result
 }
 
 module.exports = {

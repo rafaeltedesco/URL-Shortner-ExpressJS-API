@@ -10,6 +10,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("Test Shortner funcionality", function () {
+    afterEach(sinon.restore) 
   describe("POST /short-url", function () {
     const userData = {
       id: 1,
@@ -111,23 +112,6 @@ describe("Test Shortner funcionality", function () {
 
         expect(response).to.have.status(failureTestConfig.expectedStatus);
         expect(response.body).to.deep.equal(failureTestConfig.expectedBody);
-      });
-    });
-  });
-  describe("GET /:id", function () {
-    describe("success casse", function () {
-      const successTestConfig = {
-        expectedResponse: {
-          status: 302,
-          redirectExpected: 'https://www.google.com'
-        },
-      };
-
-      it("should redirect to original site given a registered url", async function () {
-        const response = await chai.request(app).get("/1234").redirects(0);
-
-        expect(response).to.have.status(successTestConfig.expectedResponse.status)
-        expect(response).to.redirectTo(successTestConfig.expectedResponse.redirectExpected)
       });
     });
   });

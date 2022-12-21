@@ -8,8 +8,10 @@ const shortURL = async (url) => {
 
 const getOriginalURLFromId = async (id) => {
     const urlToFind = `${process.env.DOMAIN}/${id}`
-    const [originalURL] = await dbUtils.find('urls', {field: 'shortned_url', value: urlToFind })
-    return originalURL[0].original_url
+    const [url] = await dbUtils.find('urls', {field: 'shortned_url', value: urlToFind })
+
+    if (!url) throw new Error('url not found')
+    return url.original_url
 }
 
 module.exports = {

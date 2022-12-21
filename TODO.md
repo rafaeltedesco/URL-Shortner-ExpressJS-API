@@ -5,4 +5,4 @@
 - [ ] User can see it's Profile (user Data and total of urls)
 - [ ] hash password
 - [ X ] Implement urlShortner to get data from DB
-- [ ] Change shortned_url field to UNIQUE in DB
+- [ X ] Change shortned_url field to UNIQUE in DB

@@ -13,7 +13,19 @@ const showAllUrls = async (req, res) => {
     res.status(200).json(urls)
 }
 
+const createProfile = async (req, res) => {
+    const userData = req.body
+    const [{insertId}] = await userService.create(userData)
+    delete userData.password
+    const newUser = {
+        id: insertId,
+        ...userData
+    }
+    res.status(201).json(newUser)
+}
+
 module.exports = {
     login,
-    showAllUrls
+    showAllUrls,
+    createProfile
 }

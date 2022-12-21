@@ -14,7 +14,7 @@ const login = async (email, password) => {
 };
 
 const getUserDataIfExists = async (email) => {
-  const [[user]] = await dbUtils.find("users", {
+  const [user] = await dbUtils.find("users", {
     field: "email",
     value: email,
   });
@@ -22,6 +22,11 @@ const getUserDataIfExists = async (email) => {
   return user;
 };
 
+const create = async (userData) => {
+  return [{insertId: 1}]
+}
+
 module.exports = {
   login,
+  create
 };

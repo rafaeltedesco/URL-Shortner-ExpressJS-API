@@ -4,6 +4,11 @@ const shortURL = async (url) => {
   );
 };
 
+const getOriginalURLFromId = async (url) => {
+  return new Promise((resolve) => resolve('http://google.com'))
+}
+
 module.exports = {
   shortURL,
+  getOriginalURLFromId
 };

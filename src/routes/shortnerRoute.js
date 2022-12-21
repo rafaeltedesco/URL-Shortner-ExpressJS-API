@@ -4,6 +4,7 @@ const {
 } = require("../middlewares/validators/urlValidator");
 const { isAuthenticated } = require("../middlewares/auth/authUser");
 const shortnerController = require("../controller/shortnerController");
+const urlService = require('../services/shortner/urlShortner')
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.post(
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const originalUrl = 'http://google.com'
+    const originalUrl = await urlService.getOriginalURLFromId(id);
     res.redirect(302, originalUrl)
 })
 module.exports = router;

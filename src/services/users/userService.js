@@ -3,6 +3,11 @@ const { generateToken } = require("../jwt/tokenGenerator");
 
 const login = async (email, password) => {
   const user = await getUserDataIfExists(email);
+  if (!user) {
+    const err = new Error('User not found')
+    err.status = 404
+    throw err
+  }
   if (Number(user.password) === Number(password)) {
     delete user.password
     const token = await generateToken(user)

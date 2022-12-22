@@ -21,23 +21,30 @@ describe("Test Users create profile Route", function () {
           password: 1234,
         },
         expected: {
-          status: 201,
-          body: {
-            id: 1,
-            name: "Rafael",
-            email: "rafael@mail.com",
-          },
+          status: 201
         },
       };
-      it("should create an user", async function () {
-        sinon.stub(connection, "execute").resolves([{ insertId: 1 }]);
+      it("should create an user and return token", async function () {
+        const connectionStub = sinon.stub(connection, "execute")
+        connectionStub.onCall(0).resolves([{ insertId: 1 }]);
+        connectionStub.onCall(1).resolves([
+          [
+            {
+              id: 1,
+              name: "Rafael",
+              email: "rafael@mail.com",
+              password: 1234,
+            },
+          ],
+        ])
 
         const response = await chai
           .request(app)
           .post(successTestConfig.testUrl)
           .send(successTestConfig.userData);
         expect(response).to.have.status(successTestConfig.expected.status);
-        expect(response.body).to.deep.equal(successTestConfig.expected.body);
+        expect(response.body).to.haveOwnProperty("token");
+        expect(response.body.token).to.have.length.greaterThan(3);
       });
     });
 

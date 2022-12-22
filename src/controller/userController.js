@@ -15,13 +15,10 @@ const showAllUrls = async (req, res) => {
 
 const createProfile = async (req, res) => {
     const userData = req.userData
-    const {insertId} = await userService.create(userData)
-    delete userData.password
-    const newUser = {
-        id: insertId,
-        ...userData
-    }
-    res.status(201).json(newUser)
+    await userService.create(userData)
+    const { email, password } = userData
+    const token = await userService.login(email, password);
+    res.status(201).json(token)
 }
 
 module.exports = {

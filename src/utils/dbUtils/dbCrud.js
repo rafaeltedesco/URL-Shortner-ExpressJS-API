@@ -1,3 +1,4 @@
+
 const connection = require("../../database/connection");
 const { parseContentToSQL } = require("./fieldsExtractor");
 
@@ -14,10 +15,11 @@ const create = async (tablename, content) => {
 
 
 
-const find = async (tablename, content) => {
+const find = async (tablename, content, fields = null) => {
+  const columns = fields ? fields.join(', ') : fields
   try {
     const result = await connection.execute(
-      `SELECT * FROM ${tablename}
+      `SELECT ${columns || '*'} FROM ${tablename}
       WHERE ${content.field} = ?`, [content.value]
     )
     

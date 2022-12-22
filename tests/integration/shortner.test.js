@@ -32,7 +32,7 @@ describe("Test Shortner funcionality", function () {
         expectedStatus: 200,
         expectedBody: {
           id: 1,
-          shortnedUrl: "http://localhost:3000/e9cd8e1fa0d6cde8a83080289f07f00ee6ad1f",
+          shortnedUrl: "http://localhost:3000/106ca427caa2",
           originalUrl: "https://www.google.com",
         },
         header: {
@@ -40,7 +40,7 @@ describe("Test Shortner funcionality", function () {
         },
       };
       it("should produce a short version of an incoming url", async function () {
-        sinon.stub(hashService, 'generateRandomId').returns('e9cd8e1fa0d6cde8a83080289f07f00ee6ad1f')
+        sinon.stub(hashService, 'generateRandomId').returns('106ca427caa2')
         const response = await chai
           .request(app)
           .post(successTestConfig.testURL)

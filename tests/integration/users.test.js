@@ -79,6 +79,48 @@ describe("Test Users Route", function () {
         expect(response).to.have.status(failureTestConfig.expected.status);
         expect(response.body).to.deep.equal(failureTestConfig.expected.body);
       });
+      it('should return status 401 and message invalid user or password when something goes wrong', async function () {
+        const failureTestConfig = {
+          testUrl: "/login",
+          loginData: {
+            email: "rafael@mail.com",
+            password: 'invalid-password',
+          },
+          expected: {
+            status: 401,
+            body: {
+              message: 'invalid user or password'
+            }
+          },
+          header: {
+            Authorization: "Bearer abcd",
+          },
+        };
+        sinon.stub(connection, "execute").resolves([
+          [
+            {
+              id: 1,
+              name: "Rafael",
+              email: "rafael@mail.com",
+              password: 1234,
+            },
+          ],
+        ]);
+        const userData = {
+          id: 1,
+          name: "Rafael",
+          email: "rafael@mail.com",
+          iat: 1671567149,
+        };
+        sinon.stub(jwt, "verify").returns(userData);
+        sinon.stub(bcrypt, 'compare').resolves(false)
+        const response = await chai
+          .request(app)
+          .post(failureTestConfig.testUrl)
+          .send(failureTestConfig.loginData);
+        expect(response).to.have.status(failureTestConfig.expected.status)
+        expect(response.body).to.deep.equal(failureTestConfig.expected.body)
+      })
     });
   });
 });

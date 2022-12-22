@@ -5,6 +5,9 @@ const passwordHasherService = require('../services/hash/passwordHasherService')
 const login = async (req, res) => {
   const { email, password } = req.body;
   const token = await userService.login(email, password, passwordHasherService);
+  if (!token) return res.status(401).json({
+    message: 'invalid user or password'
+})
   res.status(200).json(token);
 };
 
@@ -22,9 +25,6 @@ const createProfile = async (req, res) => {
     const { email, password } = userData
     await userService.create(userData, passwordHasherService)
     const token = await userService.login(email, password, passwordHasherService);
-    if (!token) return res.status(401).json({
-        message: 'invalid user or password'
-    })
     res.status(201).json(token)
 }
 

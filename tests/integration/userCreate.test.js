@@ -2,7 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../../src/app");
 const sinon = require("sinon");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const connection = require("../../src/database/connection");
 
 chai.use(chaiHttp);
@@ -21,11 +21,12 @@ describe("Test Users create profile Route", function () {
           password: 1234,
         },
         expected: {
-          status: 201
+          status: 201,
         },
       };
       it("should create an user and return token", async function () {
-        const connectionStub = sinon.stub(connection, "execute")
+        sinon.stub(bcrypt, 'compare').resolves(true)
+        const connectionStub = sinon.stub(connection, "execute");
         connectionStub.onCall(0).resolves([{ insertId: 1 }]);
         connectionStub.onCall(1).resolves([
           [
@@ -36,7 +37,7 @@ describe("Test Users create profile Route", function () {
               password: 1234,
             },
           ],
-        ])
+        ]);
 
         const response = await chai
           .request(app)
@@ -48,28 +49,30 @@ describe("Test Users create profile Route", function () {
       });
     });
 
-    describe('failure case', function () {
-      it('should return status 400 when send not valid data', async function () {
+    describe("failure case", function () {
+      it("should return status 400 when send not valid data", async function () {
         const failureTestConfig = {
-          testUrl: '/new-user',
+          testUrl: "/new-user",
           expect: {
             status: 400,
             body: {
-              message: "invalid params"
+              message: "invalid params",
             },
           },
           send: {
             data: {
-            notValid: 123
-          }}
-        }
-        const response = await chai.request(app)
+              notValid: 123,
+            },
+          },
+        };
+        const response = await chai
+          .request(app)
           .post(failureTestConfig.testUrl)
-          .send(failureTestConfig.send.data)
+          .send(failureTestConfig.send.data);
 
-        expect(response).to.have.status(failureTestConfig.expect.status)
-        expect(response.body).to.deep.equal(failureTestConfig.expect.body)
-      })
-    })
+        expect(response).to.have.status(failureTestConfig.expect.status);
+        expect(response.body).to.deep.equal(failureTestConfig.expect.body);
+      });
+    });
   });
 });

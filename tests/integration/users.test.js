@@ -4,6 +4,7 @@ const app = require("../../src/app");
 const sinon = require("sinon");
 const jwt = require("jsonwebtoken");
 const connection = require("../../src/database/connection");
+const bcrypt = require('bcrypt')
 
 chai.use(chaiHttp);
 
@@ -33,7 +34,7 @@ describe("Test Users Route", function () {
               id: 1,
               name: "Rafael",
               email: "rafael@mail.com",
-              password: 1234,
+              password: 'hashedpassword',
             },
           ],
         ]);
@@ -44,6 +45,7 @@ describe("Test Users Route", function () {
           iat: 1671567149,
         };
         sinon.stub(jwt, "verify").returns(userData);
+        sinon.stub(bcrypt, 'compare').resolves(true)
         const response = await chai
           .request(app)
           .post(successTestConfig.testUrl)

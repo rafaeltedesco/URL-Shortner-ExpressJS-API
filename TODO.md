@@ -3,9 +3,9 @@
 - [ X ] When requested for a shortned url must redirect to original one
 - [ X ] Visitor can create a profile
 - [ X ] User can only see your own urls through its token
-- [ ] hash password
+- [ X ] hash password
 - [ X ] Implement urlShortner to get data from DB
 - [ X ] Change shortned_url field to UNIQUE in DB
 - [ X ] Create test and error handler for 'url not found' when try to find url by id
 - [ X ] recreate container with new db config (add unique values)
-- [ ] add cors
+- [ X ] add cors

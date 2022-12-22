@@ -11,7 +11,7 @@ const { expect } = chai;
 describe("Test shortner", function () {
     afterEach(sinon.restore) 
     describe("GET /:id", function () {
-    describe("success casse", function () {
+    describe("success case", function () {
       const successTestConfig = {
         expectedResponse: {
           status: 302,
@@ -38,5 +38,23 @@ describe("Test shortner", function () {
         );
       });
     });
+    describe('failture case', function () {
+      it.only('should return status 404 and message "url" not found', async function () {
+        const failtureTestConfig = {
+          testUrl: '/10',
+          expect: {
+            status: 404,
+            body: {
+              message: '"url" not found'
+            }
+          }
+        }
+        sinon.stub(connection, "execute").resolves([[]]);
+        const response = await chai.request(app)
+          .get(failtureTestConfig.testUrl)
+        expect(response).to.have.status(failtureTestConfig.expect.status)
+        expect(response.body).to.deep.equal(failtureTestConfig.expect.body)
+      })
+    })
   });
 });

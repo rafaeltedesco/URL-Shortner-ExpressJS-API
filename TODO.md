@@ -6,3 +6,4 @@
 - [ ] hash password
 - [ X ] Implement urlShortner to get data from DB
 - [ X ] Change shortned_url field to UNIQUE in DB
+- [ X ] Create test and error handler for 'url not found' when try to find url by id

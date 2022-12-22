@@ -10,6 +10,9 @@ const login = async (req, res) => {
 const showAllUrls = async (req, res) => {
     const { id } = req.user
     const urls = await urlService.getUrlsByPersonId(id)
+    if (urls.length === 0) return res.status(404).json({
+        message: "user does not have shortned urls yet"
+    })
     res.status(200).json(urls)
 }
 

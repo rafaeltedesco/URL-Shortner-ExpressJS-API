@@ -44,6 +44,7 @@ describe("GET /urls", function () {
           },
         ];
        sinon.stub(connection, 'execute').resolves([expectedUrls])
+       
         const response = await chai
           .request(app)
           .get(successTestConfig.testUrl)
@@ -52,5 +53,24 @@ describe("GET /urls", function () {
         expect(response).to.have.status(200);
         expect(response.body).to.deep.equal(expectedUrls);
       });
+      it('should return "user does not have shortned urls yet', async function () {
+        const userData = {
+          id: 1,
+          name: "Rafael",
+          email: "rafael@mail.com",
+          iat: 1671567149,
+        };
+        sinon.stub(jwt, "verify").returns(userData);
+        successTestConfig.expected.body = {
+          message: "user does not have shortned urls yet"
+        }
+        const response = await chai.request(app)
+          .get(successTestConfig.testUrl)
+          .set(successTestConfig.header)
+
+        expect(response).to.have.status(404)
+        expect(response.body).to.deep.equal(successTestConfig.expected.body)
+
+      })
     });
   });

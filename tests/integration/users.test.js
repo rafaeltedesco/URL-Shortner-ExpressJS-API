@@ -79,10 +79,4 @@ describe("Test Users Route", function () {
       });
     });
   });
-
-  describe("GET /profile", function () {
-    describe("success case", function () {
-      it.skip("should return user data", async function () {});
-    });
-  });
 });

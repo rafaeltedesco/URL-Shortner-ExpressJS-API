@@ -76,3 +76,9 @@ Para subir a aplicação e o banco de dados execute com `Docker`
 ```
 
 Também é necessário preencher as variavéis de ambiente. Para isso, renomeie o arquivo .env-example e adicione as informações apropriadas.
+
+Após, execute para iniciar a aplicação:
+
+```bash
+    npm start
+```

@@ -1,10 +1,14 @@
+
 const dbUtils = require('../../utils/dbUtils/dbCrud')
 
-const shortURL = async (url) => {
+
+const generateRandomStringASURLShortened = async (hashService) => {
+  const id = hashService.generateRandomId()
   return new Promise((resolve) =>
-    resolve(new URL(`${process.env.DOMAIN}/1234`).href)
+    resolve(new URL(`${process.env.DOMAIN}/${id}`).href)
   );
 };
+
 
 const getOriginalURLFromId = async (id) => {
     const urlToFind = `${process.env.DOMAIN}/${id}`
@@ -19,6 +23,6 @@ const getOriginalURLFromId = async (id) => {
 }
 
 module.exports = {
-  shortURL,
-  getOriginalURLFromId
+  generateRandomStringASURLShortened,
+  getOriginalURLFromId,
 };

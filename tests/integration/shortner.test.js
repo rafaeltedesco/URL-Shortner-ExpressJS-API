@@ -4,6 +4,7 @@ const app = require("../../src/app");
 const sinon = require("sinon");
 const connection = require("../../src/database/connection");
 const jwt = require("jsonwebtoken");
+const hashService = require('../../src/services/hash')
 
 chai.use(chaiHttp);
 
@@ -21,7 +22,7 @@ describe("Test Shortner funcionality", function () {
 
     beforeEach(() => {
       sinon.stub(connection, "execute").resolves([{ insertId: 1 }]);
-      sinon.stub(jwt, "verify").returns(userData);
+      sinon.stub(jwt, "verify").returns(userData);  
     });
     afterEach(sinon.restore);
     describe("Success Case", function () {
@@ -31,7 +32,7 @@ describe("Test Shortner funcionality", function () {
         expectedStatus: 200,
         expectedBody: {
           id: 1,
-          shortnedUrl: "http://localhost:3000/1234",
+          shortnedUrl: "http://localhost:3000/e9cd8e1fa0d6cde8a83080289f07f00ee6ad1f",
           originalUrl: "https://www.google.com",
         },
         header: {
@@ -39,6 +40,7 @@ describe("Test Shortner funcionality", function () {
         },
       };
       it("should produce a short version of an incoming url", async function () {
+        sinon.stub(hashService, 'generateRandomId').returns('e9cd8e1fa0d6cde8a83080289f07f00ee6ad1f')
         const response = await chai
           .request(app)
           .post(successTestConfig.testURL)

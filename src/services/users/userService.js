@@ -23,7 +23,7 @@ const getUserDataIfExists = async (email) => {
 };
 
 const create = async (userData) => {
-  const [result] = await dbUtils.create('users', userData)
+  const result = await dbUtils.create('users', userData)
   return result
 }
 

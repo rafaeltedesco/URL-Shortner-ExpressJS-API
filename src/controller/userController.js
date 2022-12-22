@@ -14,7 +14,7 @@ const showAllUrls = async (req, res) => {
 }
 
 const createProfile = async (req, res) => {
-    const userData = req.body
+    const userData = req.userData
     const {insertId} = await userService.create(userData)
     delete userData.password
     const newUser = {

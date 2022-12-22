@@ -39,7 +39,7 @@ describe("Test shortner", function () {
       });
     });
     describe('failture case', function () {
-      it.only('should return status 404 and message "url" not found', async function () {
+      it('should return status 404 and message "url" not found', async function () {
         const failtureTestConfig = {
           testUrl: '/10',
           expect: {

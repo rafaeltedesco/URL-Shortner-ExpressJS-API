@@ -1,9 +1,10 @@
 const userService = require("../services/users/userService");
 const urlService = require('../services/urls/urlService')
+const passwordHasherService = require('../services/hash/passwordHasherService')
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  const token = await userService.login(email, password);
+  const token = await userService.login(email, password, passwordHasherService);
   res.status(200).json(token);
 };
 
@@ -18,9 +19,12 @@ const showAllUrls = async (req, res) => {
 
 const createProfile = async (req, res) => {
     const userData = req.userData
-    await userService.create(userData)
     const { email, password } = userData
-    const token = await userService.login(email, password);
+    await userService.create(userData, passwordHasherService)
+    const token = await userService.login(email, password, passwordHasherService);
+    if (!token) return res.status(401).json({
+        message: 'invalid user or password'
+    })
     res.status(201).json(token)
 }
 
